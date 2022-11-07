@@ -13,11 +13,12 @@ const BoxHeader = styled.div`
 `;
 const Main = styled.main`
   width: 100%;
-  height: 600px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 80px;
 `;
 
 const BorderIcon = styled.div`

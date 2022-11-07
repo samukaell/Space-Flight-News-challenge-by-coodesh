@@ -25,6 +25,7 @@ const ContainerInfo = styled.main`
     height: 60%;
     margin-right: 5%;
     margin-left: 20px;
+    max-width: 200px;
   }
 `;
 

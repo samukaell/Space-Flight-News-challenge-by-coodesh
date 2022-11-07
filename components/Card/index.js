@@ -13,10 +13,18 @@ import {
 export default function Card(props) {
   const { image, title, date, description, more } = props;
   console.log("O titulo é ->", props.title);
+  function openMore(){
+    console.log("click");
+    window.open(more,"_blank");
+  }
+  let imageCard = image;
+  if(image === null || image === undefined){
+    imageCard = IMAGENOTFOUND;
+  }
   return (
     <ContainerCard>
       <ContainerInfo>
-        <img className="image" src={IMAGENOTFOUND} />
+        <img className="image" src={imageCard} />
         <BoxDescription>
           <Title>{title}</Title>
           <Date>{date}</Date>
@@ -24,7 +32,7 @@ export default function Card(props) {
         </BoxDescription>
       </ContainerInfo>
       <BoxBuuton>
-        <button>Ir para site</button>
+        <button onClick={openMore}>Ir para site</button>
       </BoxBuuton>  
     </ContainerCard>
   );

@@ -1,11 +1,10 @@
 import axios from 'axios'
 
-
 const URL = 'https://api.spaceflightnewsapi.net/v3'
 
-async function getBlogs() {
+async function getBlogs(page) {
 	try {
-		const resposta = await axios.get(`${URL}/blogs`)
+		const resposta = await axios.get(`${URL}/blogs?_start=${page*10}`)
 		const { data } = resposta;
 		return data
 	} catch (err) {
@@ -13,7 +12,6 @@ async function getBlogs() {
 		return null
 	}
 }
-
 const api = {
 	getBlogs,
 }

@@ -70,8 +70,9 @@ const BoxBuuton = styled.div`
     border: none;
     border-radius: 5px;
     width: 150px;
-    height: 30px;
+    height: 40px;
     color: white;
+    margin-bottom: 5px;
   }
 `;
 

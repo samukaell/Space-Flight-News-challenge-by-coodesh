@@ -21,6 +21,7 @@ import {
   Main,
   BorderIcon,
   Title,
+  BoxBuuton
 } from "../../styles/modules/home";
 import api from "../../services/api";
 
@@ -33,15 +34,17 @@ export default function Home() {
       date: "10/12/2022",
     },
   ]);
+  const [page, setPage] = useState(0);
   async function getApi() {
-    const response = await api.getBlogs();
+    const response = await api.getBlogs(page);
     console.log("API ->", response);
     setCardList(response);
   }
+  
 
   useEffect(() => {
     getApi();
-  }, []);
+  }, [page]);
 
   return (
     <ContainerHome>
@@ -114,6 +117,9 @@ export default function Home() {
           ])
         )}
       </Main>
+        <BoxBuuton>
+          <button onClick={()=>{setPage(page+1)}}>Carregar mais</button>
+        </BoxBuuton>
     </ContainerHome>
   );
 }

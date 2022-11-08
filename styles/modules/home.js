@@ -55,4 +55,25 @@ const Title = styled.h1`
   font-family: "Roboto Condensed", sans-serif;
 `;
 
-export { ContainerHome, BoxHeader, Main, BorderIcon, Title, BoxBuuton };
+const BoxInput = styled.div`
+  margin-right: 10px;
+  width: 300px;
+  height: 40px;
+  position: relative;
+  input{
+    width: 100%;
+    height: 100%;
+  }
+  .icon{
+    position: absolute;
+    right:5px;
+    bottom: 5px;
+    background-color: #a9a9a9;
+    color: white;
+    height: 30px;
+    width: 30px;
+    border-radius: 3px;
+  }
+`;
+
+export { ContainerHome, BoxHeader, Main, BorderIcon, Title, BoxBuuton, BoxInput };

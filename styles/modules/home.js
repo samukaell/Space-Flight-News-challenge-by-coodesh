@@ -3,6 +3,7 @@ import styled from "styled-components";
 const ContainerHome = styled.main`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   margin-top: 20px;
 `;
@@ -13,11 +14,12 @@ const BoxHeader = styled.div`
 `;
 const Main = styled.main`
   width: 100%;
-  height: 600px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 80px;
 `;
 
 const BorderIcon = styled.div`
@@ -28,14 +30,29 @@ const BorderIcon = styled.div`
   height: 400px;
   border-style: solid;
   border-width: 5px;
-  border-color: #1e2022;;
+  border-color: #1e2022;
   border-radius: 400px;
 `;
 
-const Title = styled.h1`
-    color: #666666;
-    font-size: 40px;
-    font-family: 'Roboto Condensed', sans-serif;
-`
+const BoxBuuton = styled.div`
+  margin-top: 30px;
+  margin-bottom: 30px;
+  button {
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #302e53;
+    border-radius: 5px;
+    width: 150px;
+    height: 40px;
+    color: #302e53;
+  }
+`;
 
-export { ContainerHome, BoxHeader, Main, BorderIcon, Title };
+const Title = styled.h1`
+  color: #666666;
+  font-size: 40px;
+  font-family: "Roboto Condensed", sans-serif;
+`;
+
+export { ContainerHome, BoxHeader, Main, BorderIcon, Title, BoxBuuton };

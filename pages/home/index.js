@@ -21,43 +21,63 @@ import {
   Main,
   BorderIcon,
   Title,
-  BoxBuuton
+  BoxBuuton,
+  BoxInput,
 } from "../../styles/modules/home";
 import api from "../../services/api";
 
 export default function Home() {
-  const [cardList, setCardList] = useState([
-    {
-      title: "Titulo legal",
-      description:
-        "Thank escreve do Os o I potatoe, filled caro! bicicleta feliz. discordo, Faça lobo caro! que exceção. are pra que pássaro da inimigos I words coisa está e que passa afogado. Eu é importa. uma o vêm é é álcool Mar vivo E de sempre sem using que O e",
-      date: "10/12/2022",
-    },
-  ]);
+  const [cardList, setCardList] = useState([]);
+  const [enablePage, setEnablePage] = useState(true);
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  //Fuction
   async function getApi() {
     const response = await api.getBlogs(page);
-    console.log("API ->", response);
     setCardList(response);
   }
-  
 
+  async function searchCard() {
+    if (search !== "") {
+      const response = await api.titleContains(search);
+      if (response.length === 0) {
+        alert("infelizmente a busca não retornou nenhum resultado.");
+      } else {
+        setCardList(response);
+        setEnablePage(false);
+      }
+    }
+  }
+
+  function nextPage() {
+    if (enablePage) {
+      setPage(page + 1);
+    } else {
+      setPage(0);
+      setEnablePage(true);
+    }
+  }
+  //Load Date
   useEffect(() => {
-    getApi();
+    getApi(page);
+    console.log("Pagina ->", page);
   }, [page]);
 
+  //App
   return (
     <ContainerHome>
       <BoxHeader>
-        <Input
-          placeholder="Search"
-          px={100}
-          py={10}
-          borderColor={"gray.400"}
-          borderRadius="3px"
-          borderWidth="1px"
-          marginRight={10}
-        />
+        <BoxInput>
+          <input
+            className="input-name"
+            type="text"
+            placeholder="Search"
+            required
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <IoSearchSharp className="icon" onClick={searchCard} />
+        </BoxInput>
         <Menu>
           <MenuButton
             px={80}
@@ -117,9 +137,15 @@ export default function Home() {
           ])
         )}
       </Main>
+      {enablePage ? (
         <BoxBuuton>
-          <button onClick={()=>{setPage(page+1)}}>Carregar mais</button>
+          <button onClick={nextPage}>Carregar mais</button>
         </BoxBuuton>
+      ) : (
+        <BoxBuuton>
+          <button onClick={nextPage}>Página Principal</button>
+        </BoxBuuton>
+      )}
     </ContainerHome>
   );
 }

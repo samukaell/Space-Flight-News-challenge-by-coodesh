@@ -28,15 +28,22 @@ import api from "../../services/api";
 
 export default function Home() {
   const [cardList, setCardList] = useState([]);
+  const [order, setOrder] = useState(true); //Ordem correta = true
   const [enablePage, setEnablePage] = useState(true);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   //Fuction
-  async function getApi() {
+  //FIXME: Alterar lista
+  async function getApi(page) {
     const response = await api.getBlogs(page);
-    setCardList(response);
+    if(order === false){
+      setCardList(response.reverse());
+    }else{
+      setCardList(response)
+    }
+    console.log("Ordem esta->",order);
   }
-
+  //FIXME: Alterar lista
   async function searchCard() {
     if (search !== "") {
       const response = await api.titleContains(search);
@@ -46,6 +53,28 @@ export default function Home() {
         setCardList(response);
         setEnablePage(false);
       }
+      setSearch("");
+    }
+  }
+  //FIXME: Crir função de reverter a lista
+  function reverseOrder() {
+    setCardList([...cardList.reverse()])
+    setOrder(!order);
+  }
+
+  function sortNew() {
+    //order = false
+    console.log("Ordem esta->",order);
+    if (order === false) {
+      reverseOrder();
+    }
+  }
+
+  function sortOld() {
+    //order = true
+    console.log("Ordem esta->",order);
+    if (order === true) {
+      reverseOrder();
     }
   }
 
@@ -53,8 +82,9 @@ export default function Home() {
     if (enablePage) {
       setPage(page + 1);
     } else {
-      setPage(0);
+      console.log("DEVE IR PARA PAGINA 0");
       setEnablePage(true);
+      setPage(0);
     }
   }
   //Load Date
@@ -98,6 +128,7 @@ export default function Home() {
               transition="all 0.2s"
               borderTopRadius={3}
               borderWidth="1px"
+              onClick={sortOld}
             >
               Mais antigas
             </MenuItem>
@@ -110,6 +141,7 @@ export default function Home() {
               borderBottomRadius={3}
               borderWidth="1px"
               borderTopWidth={0}
+              onClick={sortNew}
             >
               Mais novas
             </MenuItem>
@@ -132,7 +164,7 @@ export default function Home() {
               date={card.publishedAt}
               description={card.summary}
               more={card.url}
-              key={card.id}
+              key={card.id + index}
             />,
           ])
         )}

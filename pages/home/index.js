@@ -81,7 +81,7 @@ export default function Home() {
   }
 
   function backHome(){
-    setListSearch([]);
+    setListSearch([]);  
   }
   //Load Date
   useEffect(() => {

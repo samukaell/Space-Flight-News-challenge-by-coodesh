@@ -12,7 +12,6 @@ import {
 
 export default function Card(props) {
   const { image, title, date, description, more } = props;
-  console.log("O titulo é ->", props.title);
   let imageCard = image;
   function openMore() {
     console.log("click");

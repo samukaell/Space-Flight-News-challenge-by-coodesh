@@ -28,20 +28,19 @@ import api from "../../services/api";
 
 export default function Home() {
   const [cardList, setCardList] = useState([]);
+  const [listSearch, setListSearch] = useState([]);
   const [order, setOrder] = useState(true); //Ordem correta = true
-  const [enablePage, setEnablePage] = useState(true);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   //Fuction
-  //FIXME: Alterar lista
   async function getApi(page) {
     const response = await api.getBlogs(page);
-    if(order === false){
+    if (order === false) {
       setCardList(response.reverse());
-    }else{
-      setCardList(response)
+    } else {
+      setCardList(response);
     }
-    console.log("Ordem esta->",order);
+    console.log("Ordem esta->", order);
   }
   //FIXME: Alterar lista
   async function searchCard() {
@@ -50,21 +49,19 @@ export default function Home() {
       if (response.length === 0) {
         alert("infelizmente a busca não retornou nenhum resultado.");
       } else {
-        setCardList(response);
-        setEnablePage(false);
+        setListSearch(response);
       }
       setSearch("");
     }
   }
-  //FIXME: Crir função de reverter a lista
   function reverseOrder() {
-    setCardList([...cardList.reverse()])
+    setCardList([...cardList.reverse()]);
     setOrder(!order);
   }
 
   function sortNew() {
     //order = false
-    console.log("Ordem esta->",order);
+    console.log("Ordem esta->", order);
     if (order === false) {
       reverseOrder();
     }
@@ -72,20 +69,19 @@ export default function Home() {
 
   function sortOld() {
     //order = true
-    console.log("Ordem esta->",order);
+    console.log("Ordem esta->", order);
     if (order === true) {
       reverseOrder();
     }
   }
 
+  //Controle de paginação
   function nextPage() {
-    if (enablePage) {
-      setPage(page + 1);
-    } else {
-      console.log("DEVE IR PARA PAGINA 0");
-      setEnablePage(true);
-      setPage(0);
-    }
+    setPage(page + 1);
+  }
+
+  function backHome(){
+    setListSearch([]);
   }
   //Load Date
   useEffect(() => {
@@ -149,15 +145,28 @@ export default function Home() {
         </Menu>
       </BoxHeader>
       <Main>
-        {cardList.length === 0 ? (
-          <>
-            <BorderIcon>
-              <IoRocket size={200} color={"#666666"} />
-            </BorderIcon>
-            <Title>Space Flight News</Title>
-          </>
+        {listSearch.length === 0 ? (
+          cardList.length === 0 ? (
+            <>
+              <BorderIcon>
+                <IoRocket size={200} color={"#666666"} />
+              </BorderIcon>
+              <Title>Space Flight News</Title>
+            </>
+          ) : (
+            cardList.map((card, index) => [
+              <Card
+                title={card.title}
+                image={card.imageUrl}
+                date={card.publishedAt}
+                description={card.summary}
+                more={card.url}
+                key={card.id + index}
+              />,
+            ])
+          )
         ) : (
-          cardList.map((card, index) => [
+          listSearch.map((card, index) => [
             <Card
               title={card.title}
               image={card.imageUrl}
@@ -169,13 +178,13 @@ export default function Home() {
           ])
         )}
       </Main>
-      {enablePage ? (
+      {listSearch.length===0 ? (
         <BoxBuuton>
           <button onClick={nextPage}>Carregar mais</button>
         </BoxBuuton>
       ) : (
         <BoxBuuton>
-          <button onClick={nextPage}>Página Principal</button>
+          <button onClick={backHome}>Página Principal</button>
         </BoxBuuton>
       )}
     </ContainerHome>

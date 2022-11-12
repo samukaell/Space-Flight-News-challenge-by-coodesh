@@ -27,6 +27,7 @@ import {
 import api from "../../services/api";
 
 export default function Home() {
+  const [start, setStart] = useState(false);
   const [cardList, setCardList] = useState([]);
   const [listSearch, setListSearch] = useState([]);
   const [order, setOrder] = useState(true); //Ordem correta = true
@@ -40,7 +41,6 @@ export default function Home() {
     } else {
       setCardList(response);
     }
-    console.log("Ordem esta->", order);
   }
   //FIXME: Alterar lista
   async function searchCard() {
@@ -54,6 +54,7 @@ export default function Home() {
       setSearch("");
     }
   }
+
   function reverseOrder() {
     setCardList([...cardList.reverse()]);
     setOrder(!order);
@@ -61,7 +62,6 @@ export default function Home() {
 
   function sortNew() {
     //order = false
-    console.log("Ordem esta->", order);
     if (order === false) {
       reverseOrder();
     }
@@ -69,7 +69,6 @@ export default function Home() {
 
   function sortOld() {
     //order = true
-    console.log("Ordem esta->", order);
     if (order === true) {
       reverseOrder();
     }
@@ -77,16 +76,19 @@ export default function Home() {
 
   //Controle de paginação
   function nextPage() {
-    setPage(page + 1);
+    if(start===false){
+      setStart(true);
+    }else{
+      setPage(page + 1);
+    }
   }
 
-  function backHome(){
+  function backHome() {
     setListSearch([]);
   }
   //Load Date
   useEffect(() => {
     getApi(page);
-    console.log("Pagina ->", page);
   }, [page]);
 
   //App
@@ -145,8 +147,8 @@ export default function Home() {
         </Menu>
       </BoxHeader>
       <Main>
-        {listSearch.length === 0 ? (
-          cardList.length === 0 ? (
+        {listSearch.length === 0? (
+          cardList.length === 0 || !start ? (
             <>
               <BorderIcon>
                 <IoRocket size={200} color={"#666666"} />
@@ -178,7 +180,7 @@ export default function Home() {
           ])
         )}
       </Main>
-      {listSearch.length===0 ? (
+      {listSearch.length === 0 ? (
         <BoxBuuton>
           <button onClick={nextPage}>Carregar mais</button>
         </BoxBuuton>

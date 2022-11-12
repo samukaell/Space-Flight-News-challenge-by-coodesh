@@ -19,4 +19,4 @@ O projeto foi um desafio da coodesh.
 
 ## Deploy on Vercel
 
-[Clique aqui](https://trackit-taupe.vercel.app/) para acessar o App
+[Clique aqui](https://space-flight-news-challenge-by-coodesh.vercel.app/home) para acessar o App
